@@ -3,6 +3,8 @@ package texus.kavi.datamodel;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import java.util.ArrayList;
 
@@ -12,7 +14,7 @@ import texus.kavi.utility.Utility;
 import texus.kavi.xml.TexXmlElement;
 import texus.kavi.xml.TexXmlParser;
 
-public class GalleryData {
+public class GalleryData implements Parcelable {
 
 	public static final String TABLE_NAME = "TableGallery";
 
@@ -27,6 +29,50 @@ public class GalleryData {
     public String caption = "";
 	public boolean viewed = false;
 	public boolean liked = false;
+
+	@Override
+	public int describeContents() {
+		return 0;
+	}
+
+
+	@Override
+	public void writeToParcel(Parcel dest, int flags) {
+		dest.writeString(url);
+		dest.writeString(caption);
+		dest.writeByte((byte) (viewed ? 1 : 0));
+		dest.writeByte((byte) (liked ? 1 : 0));
+	}
+
+	public GalleryData() {
+
+	}
+
+	/**
+	 * Retrieving Student data from Parcel object
+	 * This constructor is invoked by the method createFromParcel(Parcel source) of
+	 * the object CREATOR
+	 **/
+	private GalleryData(Parcel in){
+		this.url = in.readString();
+		this.caption = in.readString();
+		this.viewed = in.readByte() != 0;
+		this.liked = in.readByte() != 0;
+
+	}
+
+	public static final Creator<GalleryData> CREATOR = new Creator<GalleryData>() {
+
+		@Override
+		public GalleryData createFromParcel(Parcel source) {
+			return new GalleryData(source);
+		}
+
+		@Override
+		public GalleryData[] newArray(int size) {
+			return new GalleryData[size];
+		}
+	};
 
 
 //    <Image id="1"
@@ -215,6 +261,50 @@ public class GalleryData {
 		sql.close();
 		return true;
 	}
+
+	public static boolean deleteTable(Databases db) {
+		try {
+			SQLiteDatabase sql = db.getWritableDatabase();
+			String query = "DELETE from " + TABLE_NAME;
+			LOG.log("Query:", "Query:" + query);
+			sql.execSQL(query);
+			sql.close();
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
+	}
+
+	public static boolean deleteAnItem(Databases db, int id) {
+		try {
+			SQLiteDatabase sql = db.getWritableDatabase();
+			String query = "DELETE from " + TABLE_NAME + " WHERE " + ID + "=" + id;
+			LOG.log("Query:", "Query:" + query);
+			sql.execSQL(query);
+			sql.close();
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
+	}
+
+	public static boolean deleteItems(Databases db, ArrayList<GalleryData> galleryDatas) {
+		if( galleryDatas == null) return true;
+		try {
+			SQLiteDatabase sql = db.getWritableDatabase();
+			for( GalleryData galleryData : galleryDatas) {
+				String query = "DELETE from " + TABLE_NAME + " WHERE " + ID + "=" + galleryData.id;
+				LOG.log("Query:", "Query:" + query);
+				sql.execSQL(query);
+			}
+			sql.close();
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
+	}
+
+
 
 	public static void inseartOrUpdateOperationLocal(Databases db, GalleryData object) {
 		if(object == null) return;

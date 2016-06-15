@@ -7,6 +7,9 @@ import android.app.Application;
  */
 public class KaviApplication  extends Application {
 
+    public static final String BASE_URL  = "";
+    public static final String INDEX_URL  = BASE_URL + "/";
+
 
     private static KaviApplication ourInstance = new KaviApplication();
 

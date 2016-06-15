@@ -4,13 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="texus.kavi.MainActivity">
+    android:background="#000000"
+    >
 
-    <texus.edinettegallery.AutofitRecyclerView
-        android:id="@+id/recycler_view"
+
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/pager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:columnWidth="@dimen/grid_width"
-        />
+        android:layout_height="match_parent" />
 
 </RelativeLayout>
