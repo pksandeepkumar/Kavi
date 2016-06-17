@@ -85,8 +85,8 @@ public class GalleryData implements Parcelable {
 			+ ID + " INTEGER, "
 			+ URL + " TEXT, "
 			+ CAPTION + " TEXT, "
-			+ VIEWED + " varchar(1), "
-			+ LIKED + " varchar(1) );";
+			+ VIEWED + " varchar(1)  DEFAULT '0', "
+			+ LIKED + " varchar(1)  DEFAULT '0' );";
 
 
 	public static ArrayList<GalleryData> getParsed( String xml) {
@@ -134,7 +134,9 @@ public class GalleryData implements Parcelable {
 		cv.put(CAPTION, galleryData.caption);
 		cv.put(ID, galleryData.id);
 
-		sqld.insert(TABLE_NAME, null,cv);
+		long value = sqld.insert(TABLE_NAME, null,cv);
+        LOG.log("XXXXXXXX","Inserting..");
+        LOG.log("XXXXXXXX","Value:" + value);
 
 		sqld.close();
 	}
@@ -191,7 +193,9 @@ public class GalleryData implements Parcelable {
 		ArrayList<GalleryData> objects = new ArrayList<GalleryData>();
 		SQLiteDatabase dbRead = db.getReadableDatabase();
 		String query = "select * from " + TABLE_NAME + " WHERE "
-				+ VIEWED + " = '" + false + "' ";
+				+ VIEWED + " = '" + 0 + "' ";
+
+
 		LOG.log("Query:", "Query:" + query);
 		Cursor c = dbRead.rawQuery(query, null);
 		if (c.moveToFirst()) {
@@ -209,7 +213,7 @@ public class GalleryData implements Parcelable {
 		ArrayList<GalleryData> objects = new ArrayList<GalleryData>();
 		SQLiteDatabase dbRead = db.getReadableDatabase();
 		String query = "select * from " + TABLE_NAME + " WHERE "
-				+ LIKED + " = '" + true + "' ";
+				+ LIKED + " = '" + 1 + "' ";
 		LOG.log("Query:", "Query:" + query);
 		Cursor c = dbRead.rawQuery(query, null);
 		if (c.moveToFirst()) {

@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 
 import java.util.ArrayList;
 
+import texus.kavi.adapters.ImageRecyclerAdapter;
 import texus.kavi.controls.MarginDecoration;
 import texus.kavi.datamodel.GalleryData;
 import texus.kavi.datamodel.IndexData;
@@ -15,6 +16,7 @@ import texus.kavi.db.Databases;
 import texus.kavi.dialogs.ProgressDialog;
 import texus.kavi.network.NetworkService;
 import texus.kavi.preference.SavedPreferance;
+import texus.kavi.utility.LOG;
 import texus.kavi.utility.Utility;
 
 public class MainActivity extends AppCompatActivity {
@@ -32,10 +34,18 @@ public class MainActivity extends AppCompatActivity {
         recycler_view = (RecyclerView) this.findViewById(R.id.recycler_view);
         recycler_view.addItemDecoration(new MarginDecoration(this));
         recycler_view.setHasFixedSize(true);
+        LoadDataTask loadDataTask = new LoadDataTask(this);
+        loadDataTask.execute();
+        FetchNewImagesTask fetchNewImagesTask = new FetchNewImagesTask(this);
+        fetchNewImagesTask.execute();
+
     }
 
     private void populateList(ArrayList<GalleryData> galleryDatas) {
         if( galleryDatas == null) return;
+        ImageRecyclerAdapter adapeter = new ImageRecyclerAdapter(this, galleryDatas);
+        recycler_view.setAdapter(adapeter);
+        LOG.log("XXXXXXXX","Gallery Size:" + galleryDatas.size());
 
     }
 
@@ -65,6 +75,7 @@ public class MainActivity extends AppCompatActivity {
                 String xmlData = Utility.readFromAssets("Gallery.xml", context);
                 galleryDatas = GalleryData.getParsed(xmlData);
                 for( GalleryData galleryData: galleryDatas) {
+                    LOG.log("XXXXXXXX","Gallery inserting....");
                     GalleryData.insertObject(db, galleryData);
                 }
                 SavedPreferance.setReadFromAsset(context, true);
@@ -97,6 +108,7 @@ public class MainActivity extends AppCompatActivity {
         protected void onPreExecute() {
             super.onPreExecute();
             dialog = new ProgressDialog(context);
+
         }
 
         public FetchNewImagesTask(Context context) {
@@ -118,6 +130,7 @@ public class MainActivity extends AppCompatActivity {
 
                 String xmlData = NetworkService.getResponse(KaviApplication.BASE_URL + "/"
                                 + indexFile.name);
+                LOG.log("XXXXXXXX","Network Task:" + xmlData);
                 ArrayList<GalleryData> galleryDatas = GalleryData.getParsed(xmlData);
                 if(indexFile.need_delete) {
                     GalleryData.deleteItems(db,galleryDatas);

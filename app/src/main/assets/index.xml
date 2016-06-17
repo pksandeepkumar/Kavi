@@ -1,4 +1,3 @@
-<Index index_name="" latest_version="">
-    <file name="" version="" need_delete="" loc="asset"/>
-    <file name="" version="" need_delete=""  loc="cloud"/>
+<Index index_name="" latest_version="2">
+    <file name="kavitha2.xml" version="2" need_delete="false" loc="cloud"/>
 </Index>

@@ -8,8 +8,9 @@ import android.view.ViewGroup;
 
 import java.util.ArrayList;
 
-import orange.sbl.com.edinette.R;
-import orange.sbl.com.edinette.datamodels.GalleryData;
+import texus.kavi.R;
+import texus.kavi.datamodel.GalleryData;
+
 
 /**
  * Created by sandeep on 8/4/16.
