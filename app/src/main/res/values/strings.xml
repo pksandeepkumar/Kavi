@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Kavi</string>
+    <string name="about_app_text"> This is a sample text for about app.  This is a sample text for about app. This is a sample text for about app. This is a sample text for about app.</string>
 </resources>

@@ -3,4 +3,5 @@
     <color name="colorPrimary">#da8419</color>
     <color name="colorPrimaryDark">#ab6610</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="about_text_headding">#4e6d94</color>
 </resources>
