@@ -8,6 +8,7 @@ import android.os.Parcelable;
 
 import java.util.ArrayList;
 
+import texus.kavi.KaviApplication;
 import texus.kavi.db.Databases;
 import texus.kavi.utility.LOG;
 import texus.kavi.utility.Utility;
@@ -23,12 +24,14 @@ public class GalleryData implements Parcelable {
 	public static final String CAPTION = "caption";
 	public static final String VIEWED = "viewed";
 	public static final String LIKED = "liked";
+	public static final String HEIGHT = "cardViewHeight";
 
     public String url = "";
 	public int id = 0;
     public String caption = "";
 	public boolean viewed = false;
 	public boolean liked = false;
+	public int cardViewHeight = 0;
 
 	@Override
 	public int describeContents() {
@@ -42,6 +45,7 @@ public class GalleryData implements Parcelable {
 		dest.writeString(caption);
 		dest.writeByte((byte) (viewed ? 1 : 0));
 		dest.writeByte((byte) (liked ? 1 : 0));
+		dest.writeInt(cardViewHeight);
 	}
 
 	public GalleryData() {
@@ -83,6 +87,7 @@ public class GalleryData implements Parcelable {
 	public static final String CREATE_TABE_QUERY = "CREATE TABLE  " + TABLE_NAME
 			+ " ( " + "_id" + " INTEGER  PRIMARY KEY AUTOINCREMENT, "
 			+ ID + " INTEGER, "
+			+ HEIGHT + " INTEGER, "
 			+ URL + " TEXT, "
 			+ CAPTION + " TEXT, "
 			+ VIEWED + " varchar(1)  DEFAULT '0', "
@@ -102,6 +107,7 @@ public class GalleryData implements Parcelable {
                 object.url = element.getAttribute("url");
                 object.caption = element.getAttribute("caption");
 				object.id = Utility.parseInt(element.getAttribute("id"));
+				object.cardViewHeight = KaviApplication.getInstance().getHeight();
                 objects.add(object);
 			}
 		}
@@ -113,6 +119,7 @@ public class GalleryData implements Parcelable {
 		if( c != null) {
 			instance = new GalleryData();
 			instance.id = c.getInt(c.getColumnIndex(ID));
+			instance.cardViewHeight = c.getInt(c.getColumnIndex(HEIGHT));
 			instance.url = c.getString(c.getColumnIndex(URL));
 			instance.caption = c.getString(c.getColumnIndex(CAPTION));
 			instance.viewed = Utility.parseBoolean(c.getString(
@@ -133,7 +140,7 @@ public class GalleryData implements Parcelable {
 		cv.put(URL, galleryData.url);
 		cv.put(CAPTION, galleryData.caption);
 		cv.put(ID, galleryData.id);
-
+		cv.put(HEIGHT, galleryData.cardViewHeight);
 		long value = sqld.insert(TABLE_NAME, null,cv);
         LOG.log("XXXXXXXX","Inserting..");
         LOG.log("XXXXXXXX","Value:" + value);
@@ -151,6 +158,7 @@ public class GalleryData implements Parcelable {
 			cv.put(URL, galleryData.url);
 			cv.put(CAPTION, galleryData.caption);
 			cv.put(ID, galleryData.id);
+			cv.put(HEIGHT, galleryData.cardViewHeight);
 			sqld.insert(TABLE_NAME, null,cv);
 		}
 		sqld.close();

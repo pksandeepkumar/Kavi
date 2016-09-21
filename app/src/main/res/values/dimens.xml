@@ -17,5 +17,8 @@
     <dimen name="card_elevation">4dp</dimen>
     <dimen name="about_heading_size">25sp</dimen>
 
+    <dimen name="item_card_image_min_height">180dp</dimen>
+    <dimen name="item_card_image_max_height">250dp</dimen>
+
 
 </resources>
