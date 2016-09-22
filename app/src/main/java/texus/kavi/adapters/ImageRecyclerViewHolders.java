@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import com.bumptech.glide.Glide;
 
@@ -34,6 +35,10 @@ public class ImageRecyclerViewHolders extends RecyclerView.ViewHolder implements
     public void setValue(GalleryData object) {
 
         this.object = object;
+
+        RelativeLayout.LayoutParams rlp = (RelativeLayout.LayoutParams)imImage.getLayoutParams();
+        rlp.height = object.cardViewHeight;
+        imImage.setLayoutParams(rlp);
 
         Glide.with(imImage.getContext())
                 .load(object.url)

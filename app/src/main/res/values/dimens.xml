@@ -20,5 +20,7 @@
     <dimen name="item_card_image_min_height">180dp</dimen>
     <dimen name="item_card_image_max_height">250dp</dimen>
 
+    <dimen name="tabIndicatorHeight">3dp</dimen>
+
 
 </resources>
