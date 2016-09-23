@@ -11,7 +11,6 @@ import texus.kavi.controls.AVLoadingIndicatorView;
 import texus.kavi.datamodel.GalleryData;
 import texus.kavi.db.Databases;
 import texus.kavi.preference.SavedPreferance;
-import texus.kavi.tasks.FetchNewImagesTask;
 import texus.kavi.utility.LOG;
 import texus.kavi.utility.Utility;
 
@@ -33,14 +32,14 @@ public class SplashScreen extends BaseActivity {
     @Override
     public void init() {
 
-        aviProgress = (AVLoadingIndicatorView) this.findViewById(R.id.aviProgress);
+//        aviProgress = (AVLoadingIndicatorView) this.findViewById(R.id.aviProgress);
 
         LoadDataTask loadDataTask = new LoadDataTask(this);
         loadDataTask.execute();
 
-        FetchNewImagesTask fetchNewImagesTask = new FetchNewImagesTask(
-                KaviApplication.getInstance().getApplicationContext());
-        fetchNewImagesTask.execute();
+//        FetchNewImagesTask fetchNewImagesTask = new FetchNewImagesTask(
+//                KaviApplication.getInstance().getApplicationContext());
+//        fetchNewImagesTask.execute();
     }
 
 

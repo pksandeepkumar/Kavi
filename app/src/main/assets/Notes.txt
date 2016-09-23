@@ -1,0 +1,4 @@
+Before Android 4.1, method
+android.graphics.PorterDuffColorFilter android.support.graphics.drawable.VectorDrawableCompat.updateTintFilter
+(android.graphics.PorterDuffColorFilter, android.content.res.ColorStateList, android.graphics.PorterDuff$Mode)
+would have incorrectly overridden the package-private method in android.graphics.drawable.Drawable

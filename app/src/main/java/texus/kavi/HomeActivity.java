@@ -5,8 +5,11 @@ import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBar;
+import android.support.v7.widget.Toolbar;
+import android.view.View;
 
 import java.util.ArrayList;
 
@@ -29,16 +32,37 @@ public class HomeActivity extends  BaseActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_splash_screen);
-
+        setContentView(R.layout.activity_home);
+        setActionBar();
+//
         Intent intent = this.getIntent();
         Bundle bundle = intent.getExtras();
 
         if( bundle != null) {
             galleryDatas = bundle.getParcelableArrayList(PARAM_IMAGES);
         }
-
+//
         init();
+
+    }
+
+    private void setActionBar() {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        ActionBar actionbar =getSupportActionBar();
+        if(actionbar != null) {
+            actionbar.setDisplayHomeAsUpEnabled(true);
+            actionbar.setDisplayShowHomeEnabled(true);
+
+            actionbar.setTitle(getResources().getString(R.string.app_name));
+
+        }
+        toolbar.setNavigationOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
     }
 
@@ -56,7 +80,7 @@ public class HomeActivity extends  BaseActivity{
 
         tabLayout.addTab(tabLayout.newTab().setText("All"));
         tabLayout.addTab(tabLayout.newTab().setText("Liked"));
-        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+//        tabLayout.setTabGravity(TabLayout.GRAVITY_CENTER);
 
         PagerAdapter adapter = new PagerAdapter
                 (getSupportFragmentManager(), tabLayout.getTabCount());
@@ -80,7 +104,7 @@ public class HomeActivity extends  BaseActivity{
         });
     }
 
-    public class PagerAdapter extends FragmentStatePagerAdapter {
+    public class PagerAdapter extends FragmentPagerAdapter {
         int mNumOfTabs;
 
         public PagerAdapter(FragmentManager fm, int NumOfTabs) {
@@ -90,6 +114,8 @@ public class HomeActivity extends  BaseActivity{
 
         @Override
         public Fragment getItem(int position) {
+
+//            return null;
 
             switch (position) {
                 case 0:
@@ -102,7 +128,8 @@ public class HomeActivity extends  BaseActivity{
                     return gridLikedFragment;
 
                 default:
-                    return null;
+                    FragmentGalleryGrid gridAllFragment2 = new FragmentGalleryGrid();
+                    return gridAllFragment2;
             }
         }
 
